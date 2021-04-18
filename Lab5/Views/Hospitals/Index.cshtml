@@ -16,9 +16,9 @@
             <td>@hospital.Name</td>
             <td>@hospital.Address</td>
             <td>
-                <a asp-controller="Hospitals" asp-action="Details">Details</a> |
-                <a asp-controller="Hospitals" asp-action="Edit">Edit</a> |
-                <a asp-controller="Hospitals" asp-action="Delete">Delete</a>
+                <a asp-controller="Hospitals" asp-action="Details" asp-route-id="@hospital.Id">Details</a> |
+                <a asp-controller="Hospitals" asp-action="Edit" asp-route-id="@hospital.Id">Edit</a> |
+                <a asp-controller="Hospitals" asp-action="Delete" asp-route-id="@hospital.Id">Delete</a>
             </td>
         </tr>
     }

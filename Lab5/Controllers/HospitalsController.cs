@@ -17,7 +17,6 @@ namespace Lab5.Controllers
 
         public async Task<IActionResult> Index()
         {
-
             return View(await _db.Hospitals.ToListAsync());
         }
 
@@ -46,19 +45,82 @@ namespace Lab5.Controllers
             return View(model);
         }
 
-        public IActionResult Details(Guid id)
+        public async Task<IActionResult> Details(Guid id)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                var hospital = await _db.Hospitals.Include(h => h.Doctors)
+                    .FirstOrDefaultAsync(h => h.Id == id);
+
+                if (hospital is null)
+                    return NotFound();
+
+                return View(hospital);
+            }
+
+            return BadRequest();
         }
 
-        public IActionResult Edit(Guid id)
+        [HttpGet]
+        public async Task<IActionResult> Edit(Guid id)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                var hospital = await _db.Hospitals.FirstOrDefaultAsync(h => h.Id == id);
+
+                if (hospital is null)
+                    return NotFound();
+
+                var model = new HospitalEditingViewModel
+                {
+                    Id = hospital.Id,
+                    Name = hospital.Name,
+                    Address = hospital.Address,
+                    Phones = hospital.Phones
+                };
+
+                return View(model);
+            }
+
+            return BadRequest();
         }
 
-        public IActionResult Delete(Guid id)
+        [HttpPost]
+        public async Task<IActionResult> Edit(HospitalEditingViewModel model)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                _db.Hospitals.Update(new Hospital
+                {
+                    Id = model.Id,
+                    Name = model.Name,
+                    Address = model.Address,
+                    Phones = model.Phones
+                });
+                await _db.SaveChangesAsync();
+
+                return RedirectToAction("Index");
+            }
+
+            return View(model);
+        }
+
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            if (ModelState.IsValid)
+            {
+                var hospital = await _db.Hospitals.FirstOrDefaultAsync(h => h.Id == id);
+
+                if (hospital is null)
+                    return NotFound();
+
+                _db.Hospitals.Remove(hospital);
+                await _db.SaveChangesAsync();
+
+                return RedirectToAction("Index");
+            }
+
+            return BadRequest();
         }
     }
 }
