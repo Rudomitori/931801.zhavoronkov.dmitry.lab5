@@ -13,6 +13,7 @@ namespace Lab5.Models
         public string Address { get; set; }
 
         [Required]
+        [DataType(DataType.Date)]
         public DateTime BirthDate { get; set; } 
 
         public Gender Gender { get; set; }
