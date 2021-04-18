@@ -1,10 +1,10 @@
-﻿@model Lab5.ViewModels.Hospitals.HospitalCreatingViewModel
+﻿@model Lab5.ViewModels.Laboratories.LaboratoryCreatingViewModel
 @{
     ViewBag.Title = "Create";
 }
 <h2>Create</h2>
-<h3>Hospital</h3>
-<form asp-controller="Hospitals" asp-action="Create">
+<h3>Laboratory</h3>
+<form asp-controller="Labs" asp-action="Create">
     <div class="validation" asp-validation-summary="ModelOnly"></div>
 
     <!-- Name -->
@@ -20,14 +20,7 @@
         <input asp-for="Address" class="form-control"/>
         <span asp-validation-for="Address"></span>
     </div>
-    
-    <!-- Phones -->
-    <div class="form-group">
-        <label asp-for="Phones" class="font-weight-bold"></label>
-        <input asp-for="Phones" class="form-control"/>
-        <span asp-validation-for="Phones"></span>
-    </div>
-    
+
     <!-- Submit -->
     <div class="form-group">
         <button type="submit" class="btn btn-primary">Submit</button>
